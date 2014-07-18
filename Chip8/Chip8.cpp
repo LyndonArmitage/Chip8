@@ -265,7 +265,6 @@ void Chip8::cycle() {
 		break;
 
 	case 0x8000:
-		// Problem is in here somewhere!
 		// 0x8??? opcodes
 		switch(opcode & 0x000F) {
 
@@ -273,8 +272,6 @@ void Chip8::cycle() {
 			// 0x8XY0 LD Vx, Vy
 			// Set Vx to value of Vy
 			V[(opcode & 0x0F00) >> 8] = V[(opcode & 0x00F0) >> 4];
-
-			// it was this: V[(opcode & 0x0F00) >> 8] = V[(opcode & 0x00F0 >> 4)]; bracket in the wrong place
 			pc += 2;
 			break;
 
