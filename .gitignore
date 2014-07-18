@@ -5,6 +5,8 @@
 *.suo
 *.user
 *.sln.docstates
+*.c8
+*.ch8
 
 # Build results
 
