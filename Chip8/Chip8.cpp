@@ -119,6 +119,8 @@ void Chip8::cycle() {
 	//std::cout << "pc: 0x" << pc << " opcode: 0x" << opcode << std::endl;
 	//std::cout.unsetf(std::ios::hex);
 
+	//TODO: Add Chip48/SuperChip8 opcodes!
+
 	// decode and execute
 	switch(opcode & 0xF000) {
 	
