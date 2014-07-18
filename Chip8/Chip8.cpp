@@ -126,9 +126,9 @@ void Chip8::cycle() {
 	
 	case 0x0000 :
 		// 0x0??? opcodes
-		switch(opcode & 0x000F) {
+		switch(opcode & 0x00FF) {
 
-		case 0x0000:
+		case 0x00E0:
 			// 0x00E0 CLS
 			// Clear screen
 			for(unsigned int i = 0; i < width * height; i ++) {
@@ -138,7 +138,7 @@ void Chip8::cycle() {
 			pc += 2; // increment counter
 			break;
 
-		case 0x000E:
+		case 0x00EE:
 			// 0x00EE RET
 			// Return from a subroutine
 			sp --; // decrement stack pointer
