@@ -126,6 +126,17 @@ void Chip8::cycle() {
 	
 	case 0x0000 :
 		// 0x0??? opcodes
+
+		switch(opcode & 0x00F0) {
+		case 0x00C0 :
+			// 0x00CN SCD nibble
+			// Scroll down N lines
+			// When in Chip8 mode scrolls down N/2 lines, when in SuperChip mode scroll down N lines
+			// TODO
+			pc += 2;
+			break;
+		}
+
 		switch(opcode & 0x00FF) {
 
 		case 0x00E0:
@@ -146,9 +157,44 @@ void Chip8::cycle() {
 			pc += 2; // increment
 			break;
 
+		case 0x00FB:
+			// 0x00FB SCR
+			// Scroll 4 pixels right in SuperChip mode, or 2 pixels in Chip8 mode
+			// TODO
+			pc += 2; // increment
+			break;
+
+		case 0x00FC:
+			// 0x00FB SCL
+			// Scroll 4 pixels left in SuperChip mode, or 2 pixels in Chip8 mode
+			// TODO
+			pc += 2; // increment
+			break;
+
+		case 0x00FD:
+			// 0x00FD EXIT
+			// Exit the emulator
+			// TODO
+			std::cout << "Exit!" << std::endl;
+			break;
+
+		case 0x00FE:
+			// 0x00FE LOW
+			// Set emulator to normal Chip8 resolution, 64*32
+			// TODO
+			pc += 2;
+			break;
+
+		case 0x00FF:
+			// 0x00FF HIGH
+			// Set emulator to SuperChip resolution, 128*64
+			// TODO
+			pc += 2;
+			break;
+
 		default:
 			std::cout.setf(std::ios::hex, std::ios::basefield);
-			std::cout << "Unknown 0x0??? opcode: " << opcode << std::endl;
+			std::cout << "Unknown 0x00?? opcode: " << opcode << std::endl;
 			std::cout.unsetf(std::ios::hex);
 			//pc += 2;
 			break;
@@ -365,6 +411,9 @@ void Chip8::cycle() {
 	case 0xD000: {
 		// Draw opcode
 		// 0xDXYN DRW Vx, Vy, nibble
+
+		// TODO: Add support for 8*16 and 16*16 sprites when using height of 0 (for Chip8 and SuperChip)
+
 		unsigned short x = V[(opcode & 0x0F00) >> 8];
 		unsigned short y = V[(opcode & 0x00F0) >> 4];
 		unsigned short height = opcode & 0x000F;
@@ -499,6 +548,14 @@ void Chip8::cycle() {
 			pc += 2;
 			break;
 
+		case 0x0030:
+			// 0xFX30 LD HF, Vx
+			// Set I = location of SuperChip sprite for value of Vx
+			// TODO
+			//I = V[(opcode & 0x0F00) >> 8] * 0xA; // sprites are 8*10
+			pc += 2;
+			break;
+
 		case 0x0033:
 			// 0xFX33 LD B, Vx
 			// Store the BCD representations of the value of Vx in memory locations I, I+1, and I+2
@@ -533,6 +590,20 @@ void Chip8::cycle() {
 			// not sure on this line as it was found in an example emulator but the doc I have doesn't mention incrementing I
 			I += ((opcode & 0x0F00) >> 8) + 1; // increment I so it's pointing after all the newly inserted values
 			
+			pc += 2;
+			break;
+
+		case 0x0075:
+			// 0xFX75 LD R, Vx
+			// HP48 Save Flag
+			// TODO
+			pc += 2;
+			break;
+
+		case 0x0085:
+			// 0xFX75 LD Vx, R
+			// HP48 Load Flag
+			// TODO
 			pc += 2;
 			break;
 
