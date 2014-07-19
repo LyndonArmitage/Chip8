@@ -14,7 +14,7 @@ int main(int argc, char ** argv) {
 	if(argc < 2) {
 		std::cout << "No game argument given!" << std::endl;
 		// for testing load a file anyway
-		chip8.loadGame("roms/trip8.c8");
+		chip8.loadGame("roms/Framed MK2 [GV Samways, 1980].ch8");
 	}
 	else {
 		chip8.loadGame(argv[1]);

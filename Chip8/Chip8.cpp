@@ -112,12 +112,14 @@ void Chip8::loadGame(std::string gameName) {
 	
 }
 
+void Chip8::logUnknownOpcode(char * kind) {
+	std::cout.setf(std::ios::hex, std::ios::basefield);
+	std::cout << "Unknown " << kind << " opcode: 0x" << opcode << std::endl;
+	std::cout.unsetf(std::ios::hex);
+}
+
 void Chip8::cycle() {
 	opcode = memory[pc] << 8 | memory[pc + 1]; // fetch
-
-	//std::cout.setf(std::ios::hex, std::ios::basefield);
-	//std::cout << "pc: 0x" << pc << " opcode: 0x" << opcode << std::endl;
-	//std::cout.unsetf(std::ios::hex);
 
 	//TODO: Add Chip48/SuperChip8 opcodes!
 
@@ -193,9 +195,7 @@ void Chip8::cycle() {
 			break;
 
 		default:
-			std::cout.setf(std::ios::hex, std::ios::basefield);
-			std::cout << "Unknown 0x00?? opcode: " << opcode << std::endl;
-			std::cout.unsetf(std::ios::hex);
+			logUnknownOpcode("0x00??");
 			//pc += 2;
 			break;
 		}
@@ -365,9 +365,7 @@ void Chip8::cycle() {
 			break;
 
 		default:
-			std::cout.setf(std::ios::hex, std::ios::basefield);
-			std::cout << "Unknown 0x8??? opcode: " << opcode << std::endl;
-			std::cout.unsetf(std::ios::hex);
+			logUnknownOpcode("0x8???");
 			//pc += 2;
 			break;
 		}
@@ -470,9 +468,7 @@ void Chip8::cycle() {
 			break;
 
 		default :
-			std::cout.setf(std::ios::hex, std::ios::basefield);
-			std::cout << "Unknown 0xE??? opcode: " << opcode << std::endl;
-			std::cout.unsetf(std::ios::hex);
+			logUnknownOpcode("0xE???");
 			//pc += 2;
 			break;
 		}
@@ -567,7 +563,7 @@ void Chip8::cycle() {
 		case 0x0055:
 			// 0xFX55 LD [I], Vx
 			// Store registers V0 through Vx in memory starting at location I
-			for(unsigned int i = 0; i <= ((opcode & 0x0F00) >> 8); i ++) {
+			for(int i = 0; i <= ((opcode & 0x0F00) >> 8); i ++) {
 				memory[I + i] = V[i];
 			}
 
@@ -580,7 +576,7 @@ void Chip8::cycle() {
 		case 0x0065:
 			// 0xFX65 LD Vx, [I]
 			// Read values from memory into registers starting at I, going through Vx registers
-			for(unsigned int i = 0; i <= ((opcode & 0x0F00) >> 8); i ++) {
+			for(int i = 0; i <= ((opcode & 0x0F00) >> 8); i ++) {
 				V[i] = memory[I + i];
 			}
 			
@@ -605,9 +601,7 @@ void Chip8::cycle() {
 			break;
 
 		default :
-			std::cout.setf(std::ios::hex, std::ios::basefield);
-			std::cout << "Unknown 0xF??? opcode: " << opcode << std::endl;
-			std::cout.unsetf(std::ios::hex);
+			logUnknownOpcode("0xF???");
 			//pc += 2;
 			break;
 		}
@@ -616,9 +610,7 @@ void Chip8::cycle() {
 
 
 	default:
-		std::cout.setf(std::ios::hex, std::ios::basefield);
-		std::cout << "Unknown opcode: " << opcode << std::endl;
-		std::cout.unsetf(std::ios::hex);
+		logUnknownOpcode("0x????");
 		//pc += 2;
 		break;
 	

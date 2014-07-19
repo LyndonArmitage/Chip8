@@ -47,6 +47,9 @@ public:
 	// Sets whether a key is pressed or not
 	void setKeyState(unsigned int key, bool state);
 
+	// Logs an unknown opcode to the debug output
+	void logUnknownOpcode(char * kind);
+
 private:
 
 	// Called by constructor, sets defualts
