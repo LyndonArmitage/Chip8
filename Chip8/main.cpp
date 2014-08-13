@@ -62,6 +62,10 @@ int main(int argc, char ** argv) {
 				step = false;
 			}
 		}
+
+		if(!stepMode && !fastmode) {
+			sf::sleep(sf::milliseconds(1000 / 60)); // sleep this thread for 1/60th of a second
+		}
     }
 	gfx = nullptr;
 	delete window;
